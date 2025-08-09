@@ -1,17 +1,20 @@
 pipeline {
 environment { // Declaration of environment variables
-DOCKER_ID = "pmidock" // replace this with your docker-id
-DOCKER_IMAGE = "datascientestapi"
-DOCKER_TAG = "v.${BUILD_ID}.0" // we will tag our images with the current build in order to increment the value by 1 with each new build
-}
+    DOCKER_ID = "pmidock" // replace this with your docker-id
+    DOCKER_IMAGE = "datascientestapi"
+    DOCKER_TAG = "v.${BUILD_ID}.0" // we will tag our images with the current build in order to increment the value by 1 with each new build
+}   
 agent any // Jenkins will be able to select all available agents
+triggers {
+        githubPush()
+}
 stages {
         stage('DEBUG') {
             steps {
                 echo "✅ Le Jenkinsfile est bien exécuté !"
             }
         }
-        stage('Checkout') {
+        stage('Declarative: Checkout SCM') {
             steps {
                 checkout scm
             }
